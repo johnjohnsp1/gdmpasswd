@@ -1,6 +1,6 @@
 #!/bin/bash
   
-# gdm3 3.26.2.1-3 stores the credentials of the logged on user in plaintext in memory.
+# gdm3 3.26.2.1-3 (and possibly later) stores the credentials of the logged on user in plaintext in memory.
 # Useful for lateral movement; we're on a box, but we don't yet have any credentials...
 # This script requires root or privileged access to gdb/gcore/ptrace, etc.
 
